@@ -1,7 +1,7 @@
 .background {
     position: fixed;
     width: 100%;
-    background-color: #FFFFE4;
+    background-color: rgb(255, 255, 209);
     height: 100vh;
     z-index: -1;
     box-shadow: 
@@ -56,6 +56,10 @@
 
 .cardShadow {
     box-shadow: 4px 4px 3px 2px rgba(169, 223, 156, 0.75);
+}
+
+select{
+    width: 90%;
 }
 
 footer {

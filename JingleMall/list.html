@@ -15,25 +15,21 @@
     <!-- background div for styling -->
     <div class="background"></div>
     <!-- nav bar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#840000;">
-        <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html" style="color: #FFFFE4;">Jingle Mall   <i class="fas fa-gift"></i><span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="list.html" style="color: #FFFFE4;">Naughty or Nice List</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="search.html" style="color: #FFFFE4;">Search</a>
-            </li>
-          </ul>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#840000;">
+      <a class="navbar-brand" href="index.html">Jingle Mall <i class="fas fa-gift"></i></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="list.html" style="color: #FFFFE4;">Naughty or Nice List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search.html" style="color: #FFFFE4;">Search</a>
+          </li>
+        </ul>
+      </div>
     </nav>
     <!-- main container -->
     <div class="container d-flex align-items-center flex-column justify-content-center">
@@ -41,10 +37,19 @@
         <div class="card cardShadow" style="width: 80%; background-color: #135300; text-align: center; margin: 5%;">
             <div class="card-body">
                 <h5 class="card-title" style="color: #FFFFE4;">Wishlist</h5>
-                <ul class="card-text" style="color: #A9DF9C;"> 
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
+                <ul class="card-text wishList" style="color: #A9DF9C;"> 
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                  </li>
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                  </li>                  
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                  </li>
                 </ul>
                 <p style="color: #FFFFE4;">Don't forget to send your letter to Santa</p>
                 <a href="mailto:?subject=Christmas Wishlist&body=Just thought you should know" class="card-link" style="color: #A9DF9C;"><i class="far fa-envelope fa-2x"></i></a>
@@ -53,20 +58,41 @@
         <div class="card cardShadow" style="width: 80%; background-color: #135300; text-align: center; margin: 5%;">
             <div class="card-body">
                 <h5 class="card-title" style="color: #FFFFE4;">Bought</h5>
-                <ul class="card-text" style="color: #A9DF9C;"> 
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                </ul>
+                <ul class="card-text boughtList" style="color: #A9DF9C;"> 
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>                  
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>
+              </ul>
             </div>
         </div>
         <div class="card cardShadow" style="width: 80%; background-color: #135300; text-align: center; margin: 5%;">
             <div class="card-body">
                 <h5 class="card-title" style="color: #FFFFE4;">Wrapped</h5>
-                <ul class="card-text" style="color: #A9DF9C;"> 
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
+                <ul class="card-text wrappedList" style="color: #A9DF9C;"> 
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right;"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>                  
+                  <li>item
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary" style="float: right"><i class="fas fa-arrow-up"></i></button>
+                  </li>
                 </ul>
             </div>
         </div>
