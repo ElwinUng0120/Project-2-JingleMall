@@ -23,7 +23,7 @@ function getRequest(){
         type: "GET"
     }).then(function(response){
         console.log("Recived response from GET request! \nBuilding HTML now...");
-        buildHTML(response);
+        response.forEach(i => buildHTML(i));
     }).catch(function(err){
         console.log(err);
     });

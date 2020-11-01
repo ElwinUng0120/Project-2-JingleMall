@@ -1,22 +1,21 @@
-var APIKEY;
-if(process.env.APIKEY) APIKEY = process.env.APIKEY;
-else APIKEY = "15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134";
+var APIKEY = "15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"; // need to be changed 
 
 const amazonOpt = ["Most Relevence", "Price: Low to High", "Price: High to Low", "Customer Reviews", "Date: Latest to Oldest"];
 const walmartOpt = ["Best Seller", "Price: Low to High", "Price: High to Low", "Ratings", "Newest"];
 
 function builtURL(type){
     var sortBy;
+    var keyword;
     switch(type){
         case "amazon":
-            switch ($('.').val()){
+            switch ($('.form-control').val()){
                 case "Price: Low to High": sortBY = "price-asc-rank"; break;
                 case "Price: High to Low": sortBY = "price-desc-rank"; break;
                 case "Customer Reviews": sortBY = "review-rank"; break;
                 case "Date: Latest to Oldest": sortBY = "date-desc-rank"; break;
                 default: sortBY = "relevanceblender"; break;
             };
-            const keyword = $(".input").val().trim();
+            keyword = $(".form-control").val().trim();
             amazonRequest(`sortBy=${sortBy}&domainCode=ca&keyword=${keyword}&page=1`);
             break;
         case "walmart":
@@ -27,7 +26,7 @@ function builtURL(type){
                 case "Newest": sortBY = "new"; break;
                 default: sortBY = "best_seller"; break;
             };
-            const keyword = $(".input").val().trim();
+            keyword = $(".form-control").val().trim();
             walmartRequest(`sortBy=${sortBy}&page=1&keyword=${keyword}&type=text`);
             break;
         default:
@@ -35,7 +34,8 @@ function builtURL(type){
     }
 }
 
-//Amazon.ca
+// Amazon.ca
+// linked to getAmazonDetails()
 function amazonRequest(url){
     $.ajax({
         url: "https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?" + url,
@@ -52,6 +52,7 @@ function amazonRequest(url){
     });
 }
 
+// linked to buildList()
 function getAmazonDetails(ASIN){
     const url = "https://www.amazon.ca/dp/" + ASIN;
     $.ajax({
@@ -63,14 +64,14 @@ function getAmazonDetails(ASIN){
         }
     }).done(function(response) {
         console.log(response);
-        $('.').empty();
         buildList(response, url);
     }).catch(function(err){
         console.log(err);
     });
 }
 
-//Walmart.com
+// Walmart.com
+// linked to getWalmarDetails()
 function walmartRequest(url){
     $.ajax({
         url: "https://axesso-walmart-data-service.p.rapidapi.com/wlm/walmart-search-by-keyword?" + url,
@@ -81,13 +82,14 @@ function walmartRequest(url){
         }
     }).then(function(response){
         console.log(response);
-        response.foundProducts.forEach( i => getWalmartDetails(i) );
+        response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
         console.log(err);
     });
 }
 
+// linked to buildList()
 function getWalmartDetails(URL){
     // product URL, can be used as "Link to Buy"
     const url = "https://www.walmart.com" + URL;
@@ -100,61 +102,90 @@ function getWalmartDetails(URL){
         }
     }).then(function (response) {
         console.log(response);
-        $('.').empty();
-        buildList(respsonse, url);
+        buildList(response, url);
     // .catch for printing error detials
     }).catch(function(err){
         console.log(err);
     });
 }
 
+// takes input from getWalmartDetails()/getAmazonDetails()
 function buildList(data, prodURL){
-    switch($('.').val()){
+    $('.productList').empty(); // empty everything that was in list
+    switch($("#storeList").val()){
         case "amazon":
-            $('.').append(`
-                <li> ${data.productTitle} ${data.price} ${data.imageUrlList[0]}</li>
+            $('.productList').append(`
+                <li class="list-group-item">
+                    <h3>${data.productTitle} 
+                        <span style="font-size: 20px"><a href="${prodURL}" target="blank">Link to Buy</a></span>
+                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary"><i class="fas fa-plus"></i></button></span>
+                    </h3>
+                </li>
             `);
             break;
         case "walmart":
-            $('.').append(`
-                <li> ${data.productTitle} ${data.price} ${data.imageUrlList[0]}</li>
+            $('.productList').append(`
+                <li class="list-group-item">
+                    <h3>${data.productTitle} 
+                        <span style="font-size: 20px"><a href="${prodURL}" target="blank">Link to Buy</a></span>
+                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary"><i class="fas fa-plus"></i></button></span>
+                    </h3>
+                </li>
             `)
             break;
     }
 }
 
 $(document).ready(function(){
-    $(".searchBtn").on("click", function(){
-        builtURL($('.').val());
+
+    // checking if user pressed enter while focused in input
+    $('.form-control').on('keydown', function(event){
+        event.preventDefault();
+        if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls
+        if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
+        builtURL($('.form-control').val().trim());
+    })
+
+    // checking if user has pressed the serach button
+    $(".searchBtn").on("click", function(event){
+        event.preventDefault();
+        if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
+        //builtURL($('.form-control').val().trim());
     });
 
     // adding new products to the wishlist
-    $(".").on("click", function(event){
-        $.ajax("/api/...", {
-            type: "POST",
-            data: "..."
-        }).then(function(response){
-            console.log(response);
-        }).catch(function(err){
-            console.log(err);
-        })
-    });
+    // $(".").on("click", function(event){
+    //     $.ajax("/api/...", {
+    //         type: "POST",
+    //         data: "..."
+    //     }).then(function(response){
+    //         console.log(response);
+    //     }).catch(function(err){
+    //         console.log(err);
+    //     })
+    // });
 
-    $(".choice").on("change", function(event){
-        var choice = $(".").val();
-        $('.').empty();
-        if (choice == "amazon"){
-            amazonOpt.forEach( i => function(i){
-                $('.').append(`
-                    <option>${i}</option>
-                `);
-            });
-        } else {
-            walmartOpt.forEach( i => function(i){
-                $('.').append(`
-                    <option>${i}</option>
-                `);
-            });
-        };
-    })
+    // check the selected value when the user selected something in the dropdown list
+    $('#storeList').on('change', function(){
+        $('#sortList').removeAttr("disabled"); // enable the sorting option dropdown list 
+        $('#sortList').empty(); // empty every options that were in the list
+        // based on which store the user has selected, print corresponding sorting to the sorting option dropdown list
+        switch ($('#storeList').val()){
+            case 'amazon':
+                amazonOpt.forEach(function(i){
+                    $('#sortList').append(`<option>${i}</option>`);
+                });
+                break;
+            case 'walmart':
+                walmartOpt.forEach(function(i){
+                    $('#sortList').append(`<option>${i}</option>`);
+                });
+                break;
+            default:
+                // user selected the first option in the store dropdown list, sorting option dropdown list becomes disabled
+                $('#sortList').empty(); // empty every options that were in the list
+                $('#sortList').attr("disabled", true); // disabling the sorting option dropdown list
+                break;
+            }
+    });
 });

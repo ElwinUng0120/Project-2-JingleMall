@@ -1,2 +1,3 @@
 node_modules
-JingleMall untouched
+package-lock.json
+.DS_Store
