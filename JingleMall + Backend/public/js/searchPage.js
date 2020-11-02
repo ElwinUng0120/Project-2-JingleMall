@@ -150,15 +150,13 @@ $(document).ready(function(){
     $('.form-control').on('keydown', function(event){
         if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
-        console.log("API CALLED");
-        // builtURL($('.form-control').val().trim());
+        builtURL($('.form-control').val().trim());
     })
 
     // checking if user has pressed the serach button
     $(".searchBtn").on("click", function(event){
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
-        console.log("API CALLED");
-        //builtURL($('.form-control').val().trim());
+        builtURL($('.form-control').val().trim());
     });
 
     // adding new products to the wishlist
