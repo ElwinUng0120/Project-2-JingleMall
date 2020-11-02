@@ -1,4 +1,4 @@
-var APIKEY = "15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"; // need to be changed 
+var APIKEY; // need to be changed
 
 const amazonOpt = ["Most Relevence", "Price: Low to High", "Price: High to Low", "Customer Reviews", "Date: Latest to Oldest"];
 const walmartOpt = ["Best Seller", "Price: Low to High", "Price: High to Low", "Ratings", "Newest"];
@@ -121,22 +121,22 @@ function buildList(data, prodURL){
     switch($("#storeList").val()){
         case "amazon":
             $('.productList').append(`
-                <li class="list-group-item">
+                <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
                     <h3 id='${id}'>
-                        <span>${data.productTitle}</span>
-                        <a href="${prodURL}" target="blank" style="font-size: 20px">Link to Buy</a>
-                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary addBtn"><i class="fas fa-plus"></i></button></span>
+                        <span style="color: #FFFFE4;">${data.productTitle}</span>
+                        <a href="${prodURL}" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
+                        <span style="float: right; color: #FFFFE4;">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
                     </h3>
                 </li>
             `);
             break;
         case "walmart":
             $('.productList').append(`
-                <li class="list-group-item">
+                <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
                     <h3 id='${id}'>
-                        <span>${data.productTitle}</span>
-                        <a href="${prodURL}" target="blank" style="font-size: 20px">Link to Buy</a>
-                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}'><i class="fas fa-plus"></i></button></span>
+                        <span style="color: #FFFFE4;">${data.productTitle}</span>
+                        <a href="${prodURL}" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
+                        <span style="float: right; color: #FFFFE4;">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
                     </h3>
                 </li>
             `)
@@ -145,7 +145,15 @@ function buildList(data, prodURL){
 }
 
 $(document).ready(function(){
-
+    
+    $.ajax("/apiKey", {
+        type: "GET"
+    }).then(function(response){
+        APIKEY = response; //"15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"
+    }).catch(function(err){
+        console.log(err);
+    });
+    
     // checking if user pressed enter while focused in input
     $('.form-control').on('keydown', function(event){
         if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls

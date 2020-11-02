@@ -16,7 +16,11 @@ function deleteItem( id ){
     return db.query( 'DELETE FROM shoppingList WHERE id=?', [ id ] )
 }
 
+function getAPIKEY(){
+    return process.env.APIKEY;
+}
+
 module.exports = {
-    getList, addItem, updateItem, deleteItem
+    getList, addItem, updateItem, deleteItem, getAPIKEY
 }
 
