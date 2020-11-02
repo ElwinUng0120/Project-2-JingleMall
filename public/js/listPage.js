@@ -87,7 +87,7 @@ $(document).ready(function(){
         $.ajax("/api/items/" + id, {
             type: "DELETE"
         }).then(function(response){
-            if(response.changedRows > 0) console.log('[200]: Successful');
+            if(response.affectedRows > 0) console.log('[200]: Successful');
             else {
                 console.log('[400]: Check id');
                 return;
