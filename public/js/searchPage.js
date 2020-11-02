@@ -21,7 +21,7 @@ function builtURL(type){
             amazonRequest(`sortBy=${sortBy}&domainCode=ca&keyword=${keyword}&page=1`);
             break;
         case "walmart":
-            switch ($('.').val()){
+            switch ($('.form-control').val()){
                 case "Price: Low to High": sortBY = "price_low"; break;
                 case "Price: High to Low": sortBY = "price_high"; break;
                 case "Ratings": sortBY = "rating_high"; break;
@@ -39,6 +39,7 @@ function builtURL(type){
 // Amazon.ca
 // linked to getAmazonDetails()
 function amazonRequest(url){
+    console.log("ajax calls");
     $.ajax({
         url: "https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?" + url,
         method: "GET",
@@ -48,9 +49,13 @@ function amazonRequest(url){
         }
     }).done(function(response) {
         console.log(response);
-        $('.productList').empty(); // empty everything that was in list
+        $('.prodList').empty(); // empty everything that was in list
         id = 0;
-        response.foundProducts.forEach( i => getAmazonDetails(i) );
+        // for each product in the response, get its details. LIMITING TO 5
+        for(let i=0; i < 5; i++) {
+            getAmazonDetails(response.foundProducts[i])
+        }
+        //response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
     });
@@ -86,9 +91,13 @@ function walmartRequest(url){
         }
     }).then(function(response){
         console.log(response);
-        $('.productList').empty(); // empty everything that was in list
+        $('.prodList').empty(); // empty everything that was in list
         id = 0;
-        response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
+        // for each product in the response, get its details. LIMITING TO 5
+        for(let i=0; i < 5; i++){
+            getWalmartDetails(response.foundProducts[i])
+        }
+        // response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
         console.log(err);
@@ -120,7 +129,7 @@ function buildList(data, prodURL){
     id++;
     switch($("#storeList").val()){
         case "amazon":
-            $('.productList').append(`
+            $('.prodList').append(`
                 <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
                     <h3 id='${id}'>
                         <span style="color: #FFFFE4;">${data.productTitle}</span>
@@ -131,7 +140,7 @@ function buildList(data, prodURL){
             `);
             break;
         case "walmart":
-            $('.productList').append(`
+            $('.prodList').append(`
                 <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
                     <h3 id='${id}'>
                         <span style="color: #FFFFE4;">${data.productTitle}</span>
@@ -158,13 +167,13 @@ $(document).ready(function(){
     $('.form-control').on('keydown', function(event){
         if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
-        builtURL($('.form-control').val().trim());
+        builtURL($('#storeList').val());
     })
 
     // checking if user has pressed the serach button
     $(".searchBtn").on("click", function(event){
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
-        builtURL($('.form-control').val().trim());
+        builtURL($('#storeList').val());
     });
 
     // adding new products to the wishlist
@@ -177,7 +186,7 @@ $(document).ready(function(){
                 link: children[1].getAttribute("href")
             }
         }).then(function(response){
-            if(response.changedRows > 0) console.log('[200]: Successful');
+            if(response.affectedRows > 0) console.log('[200]: Successful');
             else {
                 console.log('[400]: Check data ');
                 return;
