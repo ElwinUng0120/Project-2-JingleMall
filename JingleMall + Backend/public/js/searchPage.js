@@ -3,6 +3,8 @@ var APIKEY = "15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"; // need to be
 const amazonOpt = ["Most Relevence", "Price: Low to High", "Price: High to Low", "Customer Reviews", "Date: Latest to Oldest"];
 const walmartOpt = ["Best Seller", "Price: Low to High", "Price: High to Low", "Ratings", "Newest"];
 
+var id;
+
 function builtURL(type){
     var sortBy;
     var keyword;
@@ -46,6 +48,8 @@ function amazonRequest(url){
         }
     }).done(function(response) {
         console.log(response);
+        $('.productList').empty(); // empty everything that was in list
+        id = 0;
         response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
@@ -82,6 +86,8 @@ function walmartRequest(url){
         }
     }).then(function(response){
         console.log(response);
+        $('.productList').empty(); // empty everything that was in list
+        id = 0;
         response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
@@ -111,14 +117,15 @@ function getWalmartDetails(URL){
 
 // takes input from getWalmartDetails()/getAmazonDetails()
 function buildList(data, prodURL){
-    $('.productList').empty(); // empty everything that was in list
+    id++;
     switch($("#storeList").val()){
         case "amazon":
             $('.productList').append(`
                 <li class="list-group-item">
-                    <h3>${data.productTitle} 
-                        <span style="font-size: 20px"><a href="${prodURL}" target="blank">Link to Buy</a></span>
-                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary"><i class="fas fa-plus"></i></button></span>
+                    <h3 id='${id}'>
+                        <span>${data.productTitle}</span>
+                        <a href="${prodURL}" target="blank" style="font-size: 20px">Link to Buy</a>
+                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary addBtn"><i class="fas fa-plus"></i></button></span>
                     </h3>
                 </li>
             `);
@@ -126,9 +133,10 @@ function buildList(data, prodURL){
         case "walmart":
             $('.productList').append(`
                 <li class="list-group-item">
-                    <h3>${data.productTitle} 
-                        <span style="font-size: 20px"><a href="${prodURL}" target="blank">Link to Buy</a></span>
-                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary"><i class="fas fa-plus"></i></button></span>
+                    <h3 id='${id}'>
+                        <span>${data.productTitle}</span>
+                        <a href="${prodURL}" target="blank" style="font-size: 20px">Link to Buy</a>
+                        <span style="float: right">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}'><i class="fas fa-plus"></i></button></span>
                     </h3>
                 </li>
             `)
@@ -140,30 +148,38 @@ $(document).ready(function(){
 
     // checking if user pressed enter while focused in input
     $('.form-control').on('keydown', function(event){
-        event.preventDefault();
         if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
-        builtURL($('.form-control').val().trim());
+        console.log("API CALLED");
+        // builtURL($('.form-control').val().trim());
     })
 
     // checking if user has pressed the serach button
     $(".searchBtn").on("click", function(event){
-        event.preventDefault();
         if($('.form-control').val().trim() === "") return; // if user didn't enter anything, prevent sending API calls
+        console.log("API CALLED");
         //builtURL($('.form-control').val().trim());
     });
 
     // adding new products to the wishlist
-    // $(".").on("click", function(event){
-    //     $.ajax("/api/...", {
-    //         type: "POST",
-    //         data: "..."
-    //     }).then(function(response){
-    //         console.log(response);
-    //     }).catch(function(err){
-    //         console.log(err);
-    //     })
-    // });
+    $(document).on("click", ".addBtn", function(event){
+        const children = $(`#${$(this).data('id')}`).children(); // getting all the info
+        $.ajax("/api/items", {
+            type: "POST",
+            data: {
+                name: children[0].innerText,
+                link: children[1].getAttribute("href")
+            }
+        }).then(function(response){
+            if(response.changedRows > 0) console.log('[200]: Successful');
+            else {
+                console.log('[400]: Check data ');
+                return;
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    });
 
     // check the selected value when the user selected something in the dropdown list
     $('#storeList').on('change', function(){

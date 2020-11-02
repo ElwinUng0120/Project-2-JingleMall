@@ -1,29 +1,38 @@
 function buildHTML(data){
-    $('#wishList, #boughtList, #wrappedList').empty();
-    data.map(i => i.stage == 1).forEach(function(i){
-        $("#wishList").append(`
-            <li id='${i.id}' data-stage='${i.stage}'>${i.name}</li>
-        `);
-    });
-    data.map(i => i.stage == 2).forEach(function(i){
-        $("#boughtList").append(`
-            <li id='${i.id}' data-stage='${i.stage}'>${i.name}</li>
-        `);
-    });
-    data.map(i => i.stage == 3).forEach(function(i){
-        $("#wrappedList").append(`
-            <li id='${i.id}' data-stage='${i.stage}'>${i.name}</li>
-        `);
+    $('.wishList, .boughtList, .wrappedList').empty();
+    data.forEach(function(i){
+        if(i.stage == 1) {
+            $(".wishList").append(`
+                <li id='${i.id}' data-stage='${i.stage}'>${i.name}
+                    <button type="button" class="badge badge-primary deleteBtn" data-id='${i.id}' style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary nextBtn" data-id='${i.id}' style="float: right"><i class="fas fa-arrow-down"></i></button>
+                </li>
+            `);
+        } else if (i.stage == 2) {
+            $(".boughtList").append(`
+                <li id='${i.id}' data-stage='${i.stage}'>${i.name}
+                    <button type="button" class="badge badge-primary deleteBtn" data-id='${i.id}' style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary nextBtn" data-id='${i.id}' style="float: right"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="badge badge-primary previousBtn" data-id='${i.id}' style="float: right"><i class="fas fa-arrow-up"></i></button>
+                </li>
+            `);
+        } else {
+            $(".wrappedList").append(`
+                <li id='${i.id}' data-stage='${i.stage}'>${i.name}
+                    <button type="button" class="badge badge-primary deleteBtn" data-id='${i.id}' style="float: right"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="badge badge-primary previousBtn" data-id='${i.id}' style="float: right"><i class="fas fa-arrow-up"></i></button>
+                </li>
+            `);
+        }
     });
 }
 
 function getRequest(){
     // getting all data from the database when the page is loaded/reloaded
-    $.ajax("/api/...", {
+    $.ajax("/api/items", {
         type: "GET"
     }).then(function(response){
-        console.log("Recived response from GET request! \nBuilding HTML now...");
-        response.forEach(i => buildHTML(i));
+        buildHTML(response);
     }).catch(function(err){
         console.log(err);
     });
@@ -31,32 +40,58 @@ function getRequest(){
 
 $(document).ready(function(){
     getRequest();
-    $('.move').on('click', function(event){
-        const id = event.target.parentElement.id;
-        const stage = $(`#${id}`).data("stage");
-        if(stage === 1) stage = 2;
-        else if (stage === 2) stage = 3;
-        var data = {
-            id: id,
-            stage: stage
-        }
-        $.ajax("/api/...", {
-            type: "POST",
-            data: data
+    $(document).on('click', '.nextBtn', function(event){
+        const id = $(this).data('id');
+        const stage = $(`#${id}`).data("stage") + 1;
+        $.ajax("/api/items/" + id, {
+            type: "PUT",
+            data: {
+                id: id,
+                stage: stage
+            }
         }).then(function(response){
-            console.log(response);
+            if(response.changedRows > 0) console.log('[200]: Successful');
+            else {
+                console.log('[400]: Check id and/or stage');
+                return;
+            }
             getRequest();
         }).catch(function(err){
             console.log(err);
         });
     });
 
-    $('.delete').on('click', function(event){
-        const id = event.parent.id;
-        $.ajax("/api/.../" + id, {
+    $(document).on('click', '.previousBtn', function(event){
+        const id = $(this).data('id');
+        const stage = $(`#${id}`).data("stage") - 1;
+        $.ajax("/api/items/" + id, {
+            type: "PUT",
+            data: {
+                id: id,
+                stage: stage
+            }
+        }).then(function(response){
+            if(response.changedRows > 0) console.log('[200]: Successful');
+            else {
+                console.log('[400]: Check id and/or stage');
+                return;
+            }
+            getRequest();
+        }).catch(function(err){
+            console.log(err);
+        });
+    });
+
+    $(document).on('click', '.deleteBtn', function(event){
+        const id = $(this).data('id');
+        $.ajax("/api/items/" + id, {
             type: "DELETE"
         }).then(function(response){
-            console.log(response);
+            if(response.changedRows > 0) console.log('[200]: Successful');
+            else {
+                console.log('[400]: Check id');
+                return;
+            }
             getRequest();
         }).catch(function(err){
             console.log(err);
