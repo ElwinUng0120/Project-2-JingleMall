@@ -1,4 +1,4 @@
-var APIKEY = "15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"; // need to be changed 
+var APIKEY; // need to be changed
 
 const amazonOpt = ["Most Relevence", "Price: Low to High", "Price: High to Low", "Customer Reviews", "Date: Latest to Oldest"];
 const walmartOpt = ["Best Seller", "Price: Low to High", "Price: High to Low", "Ratings", "Newest"];
@@ -145,7 +145,15 @@ function buildList(data, prodURL){
 }
 
 $(document).ready(function(){
-
+    
+    $.ajax("/apiKey", {
+        type: "GET"
+    }).then(function(response){
+        APIKEY = response; //"15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"
+    }).catch(function(err){
+        console.log(err);
+    });
+    
     // checking if user pressed enter while focused in input
     $('.form-control').on('keydown', function(event){
         if(event.keyCode != 13) return; // if key pressed is not enter, prevent sending API calls

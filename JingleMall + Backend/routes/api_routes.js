@@ -33,4 +33,9 @@ router.delete("/api/items/:id", async function(req, res){
     res.send(response);
 });
 
+router.get("/apiKey", async function(req, res){
+    const response = await orm.getAPIKEY();
+    res.send(response);
+});
+
 module.exports = router;
