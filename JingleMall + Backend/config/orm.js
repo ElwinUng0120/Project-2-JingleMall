@@ -1,19 +1,19 @@
 const db = require( './connection.js' )
 
 function getList( id){
-    return db.query( 'SELECT * FROM tasks '+( id ? 'WHERE ? ' : '' ), id )
+    return db.query( 'SELECT * FROM shoppingList '+( id ? 'WHERE ? ' : '' ), id )
 }
 
 function addItem( name, link){
-    return db.query('INSERT into table (`name`,link) values (?,?)', [name, link])
+    return db.query('INSERT into shoppingList (`name`,link) values (?,?)', [name, link])
 }
   
 function updateItem( id, stage ){
-    return db.query( 'UPDATE tabelName SET stage=? WHERE id=?', [stage,id] )
+    return db.query( 'UPDATE shoppingList SET stage=? WHERE id=?', [stage,id] )
 }
 
 function deleteItem( id ){
-    return db.query( 'DELETE FROM tasks WHERE id=?', [ id ] )
+    return db.query( 'DELETE FROM shoppingList WHERE id=?', [ id ] )
 }
 
 module.exports = {
