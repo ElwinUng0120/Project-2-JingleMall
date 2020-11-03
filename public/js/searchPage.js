@@ -74,7 +74,7 @@ function getWalmartDetails(URL){
 
 // linked to getAmazonDetails()
 function amazonRequest(url){
-    console.log('ajax calls');
+    $('.spinLoader').css('display', 'block');
     $.ajax({
         url: 'https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?' + url,
         method: 'GET',
@@ -85,7 +85,6 @@ function amazonRequest(url){
     }).then(function(response) {
         console.log(response);
         $('.prodList').empty(); // empty everything that was in list
-        $('.spinLoader').css('display', 'block');
         id = 0;
         // for each product in the response, get its details. LIMITING TO 5
         for(let i=0; i < 5; i++) {
@@ -100,6 +99,7 @@ function amazonRequest(url){
 
 // linked to getWalmarDetails()
 function walmartRequest(url){
+    $('.spinLoader').css('display', 'block');
     $.ajax({
         url: 'https://axesso-walmart-data-service.p.rapidapi.com/wlm/walmart-search-by-keyword?' + url,
         method: 'GET',
@@ -110,7 +110,6 @@ function walmartRequest(url){
     }).then(function(response){
         console.log(response);
         $('.prodList').empty(); // empty everything that was in list
-        $('.spinLoader').css('display', 'block');
         id = 0;
         // for each product in the response, get its details. LIMITING TO 5
         for(let i=0; i < 5; i++){
