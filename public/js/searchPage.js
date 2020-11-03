@@ -7,31 +7,15 @@ const walmartOpt = ['Best Match', 'Best Seller', 'Price: Low to High', 'Price: H
 // takes input from getWalmartDetails()/getAmazonDetails()
 function buildList(data, prodURL){
     id++;
-    switch($('#storeList').val()){
-    case 'amazon':
-        $('.prodList').append(`
-                    <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
-                        <h3 id='${id}'>
-                            <span style="color: #FFFFE4;">${data.productTitle}</span>
-                            <a href="${prodURL}" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
-                            <span style="float: right; color: #FFFFE4;">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
-                        </h3>
-                    </li>
+    $('.prodList').append(`
+                <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
+                    <h3 id='${id}'>
+                        <span style="color: #FFFFE4;">${data.productTitle}</span>
+                        <a href="${prodURL}" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
+                        <span style="float: right; color: #FFFFE4;">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
+                    </h3>
+                </li>
                 `);
-        break;
-    case 'walmart':
-        $('.prodList').append(`
-                    <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
-                        <h3 id='${id}'>
-                            <span style="color: #FFFFE4;">${data.productTitle}</span>
-                            <a href="${prodURL}" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
-                            <span style="float: right; color: #FFFFE4;">$${data.price} <button type="button" class="badge badge-primary addBtn" data-id='${id}' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
-                        </h3>
-                    </li>
-                `)
-        break;
-    default: break;
-    }
 }
 
 // linked to buildList()
@@ -90,7 +74,6 @@ function amazonRequest(url){
         for(let i=0; i < 5; i++) {
             getAmazonDetails(response.foundProducts[i])
         }
-        $('.loadSign').css('display', 'none');
         //response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
@@ -115,7 +98,6 @@ function walmartRequest(url){
         for(let i=0; i < 5; i++){
             getWalmartDetails(response.foundProducts[i])
         }
-        $('.loadSign').css('display', 'none');
         // response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
