@@ -27,9 +27,9 @@
  <link>https://drive.google.com/file/d/14WJEVg-brS_5emYl7zo6hMHI8uvpzUBY/view</link>
  
  <h2>Screenshots</h2>
-<img width="600" src="https://user-images.githubusercontent.com/70531552/98014588-d4c14500-1dc9-11eb-984a-db252e202c4e.png">
-<img width="600" src="https://user-images.githubusercontent.com/70531552/98014687-f4f10400-1dc9-11eb-91d1-a110fd9e970f.png">
-<img width="600" src="https://user-images.githubusercontent.com/70531552/98014756-076b3d80-1dca-11eb-895a-30529d0bd544.png">
+<img width="250" src="https://user-images.githubusercontent.com/70531552/98014588-d4c14500-1dc9-11eb-984a-db252e202c4e.png">
+<img width="250" src="https://user-images.githubusercontent.com/70531552/98014687-f4f10400-1dc9-11eb-91d1-a110fd9e970f.png">
+<img width="250" src="https://user-images.githubusercontent.com/70531552/98014756-076b3d80-1dca-11eb-895a-30529d0bd544.png">
 
 <h2>Roadmap</h2>
 <ul>
