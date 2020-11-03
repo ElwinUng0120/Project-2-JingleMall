@@ -7,7 +7,7 @@ function getList( id){
 function addItem( name, link){
     return db.query('INSERT into shoppingList (`name`,link) values (?,?)', [name, link])
 }
-  
+
 function updateItem( id, stage ){
     return db.query( 'UPDATE shoppingList SET stage=? WHERE id=?', [stage,id] )
 }
