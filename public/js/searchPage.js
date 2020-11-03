@@ -74,6 +74,7 @@ function amazonRequest(url){
         for(let i=0; i < 5; i++) {
             getAmazonDetails(response.foundProducts[i])
         }
+        $('.loadSign').css('display', 'none');
         //response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
@@ -98,6 +99,7 @@ function walmartRequest(url){
         for(let i=0; i < 5; i++){
             getWalmartDetails(response.foundProducts[i])
         }
+        $('.loadSign').css('display', 'none');
         // response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
