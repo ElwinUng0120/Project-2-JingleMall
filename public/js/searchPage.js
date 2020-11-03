@@ -4,6 +4,9 @@ var id;
 const amazonOpt = ['Most Relevence', 'Price: Low to High', 'Price: High to Low', 'Customer Reviews', 'Date: Latest to Oldest'];
 const walmartOpt = ['Best Match', 'Best Seller', 'Price: Low to High', 'Price: High to Low', 'Ratings', 'Newest'];
 
+const amazonSort = ['relevanceblender', 'price-asc-rank', 'price-desc-rank', 'review-rank', 'date-desc-rank'];
+const walmartSort = ['best_match', 'best_seller', 'price_low', 'price_high', 'rating_high', 'new'];
+
 // takes input from getWalmartDetails()/getAmazonDetails()
 function buildList(data, prodURL){
     id++;
@@ -113,26 +116,13 @@ function builtURL(type){
     var keyword;
     switch(type){
     case 'amazon':
-        switch ($('.sortList').val()){
-        case 'Price: Low to High': sortBY = 'price-asc-rank'; break;
-        case 'Price: High to Low': sortBY = 'price-desc-rank'; break;
-        case 'Customer Reviews': sortBY = 'review-rank'; break;
-        case 'Date: Latest to Oldest': sortBY = 'date-desc-rank'; break;
-        default: sortBY = 'relevanceblender'; break;
-        }
         keyword = $('.form-control').val().trim();
+        sortBy = $('#sortList').val();
         amazonRequest(`sortBy=${sortBy}&domainCode=ca&keyword=${keyword}&page=1`);
         break;
     case 'walmart':
-        switch ($('.sortList').val()){
-        case 'Best Seller': sortBy = 'best_seller'; break;
-        case 'Price: Low to High': sortBY = 'price_low'; break;
-        case 'Price: High to Low': sortBY = 'price_high'; break;
-        case 'Ratings': sortBY = 'rating_high'; break;
-        case 'Newest': sortBY = 'new'; break;
-        default: sortBY = 'best_match'; break;
-        }
         keyword = $('.form-control').val().trim();
+        sortBy = $('#sortList').val();
         walmartRequest(`sortBy=${sortBy}&page=1&keyword=${keyword}&type=text`);
         break;
     default:
@@ -204,12 +194,12 @@ $(document).ready(function(){
         switch ($('#storeList').val()){
         case 'amazon':
             amazonOpt.forEach(function(i){
-                $('#sortList').append(`<option>${i}</option>`);
+                $('#sortList').append(`<option value='${amazonSort[amazonOpt.indexOf(i)]}'>${i}</option>`);
             });
             break;
         case 'walmart':
             walmartOpt.forEach(function(i){
-                $('#sortList').append(`<option>${i}</option>`);
+                $('#sortList').append(`<option value='${walmartSort[walmartOpt.indexOf(i)]}'>${i}</option>`);
             });
             break;
         default:
