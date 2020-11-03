@@ -44,7 +44,7 @@ function getAmazonDetails(ASIN){
             'x-rapidapi-host': 'axesso-axesso-amazon-data-service-v1.p.rapidapi.com',
             'x-rapidapi-key': APIKEY
         }
-    }).done(function(response) {
+    }).then(function(response) {
         console.log(response);
         buildList(response, url);
     }).catch(function(err){
@@ -82,7 +82,7 @@ function amazonRequest(url){
             'x-rapidapi-host': 'axesso-axesso-amazon-data-service-v1.p.rapidapi.com',
             'x-rapidapi-key': APIKEY
         }
-    }).done(function(response) {
+    }).then(function(response) {
         console.log(response);
         $('.prodList').empty(); // empty everything that was in list
         $('.spinLoader').css('display', 'block');
