@@ -136,7 +136,7 @@ $(document).ready(function(){
     $.ajax('/apiKey', {
         type: 'GET'
     }).then(function(response){
-        APIKEY = response; //"15ad446b41msh4622def0c5c90dbp163500jsnb9c008697134"
+        APIKEY = response;
     }).catch(function(err){
         console.log(err);
     });
