@@ -21,7 +21,7 @@
   <li>Moment.js for displaying how many days until Christmas</li>
   <li>dotenv for hiding critical information from code</li>
   <li>ESLint for uniform code format</li>
- </ul>
+</ul>
  
  <h2>Video</h2>
  <link>https://drive.google.com/file/d/14WJEVg-brS_5emYl7zo6hMHI8uvpzUBY/view</link>
@@ -44,3 +44,6 @@
   <li>Add a wider variety of Stores for searching</li>
   <li>Switch to Sequelize for database operations</li>
 </ul>
+
+<h2>Live site</h2>
+<p>This webapp is currently hosted on Heroku with JAWSDB: <link>https://guarded-castle-93952.herokuapp.com/index.html</linke></p>
