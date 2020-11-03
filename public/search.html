@@ -73,6 +73,7 @@
             <div class="card-body">
               <h5 class="card-title" style="color: #FFFFE4;">Looking for something?</h5>
               <div class="row">
+                  <!-- Store list dropdown -->
                   <div class="col-6">
                     <select name="storeList" id="storeList">
                       <option>Select a store...</option>
@@ -80,12 +81,14 @@
                       <option value="walmart">Walmart.com</option>
                     </select>
                   </div>
+                  <!-- Sorting option dropdown -->
                   <div class="col-6">
                     <select name="sortList" id="sortList" disabled>
                     </select>
                   </div>
               </div>
               <br>
+              <!-- Keyword input and search button -->
               <div class="row justify-content-center">
                 <form class="form-inline my-2 my-lg-0 justify-content-center" onSubmit="return false;">
                     <input class="form-control mr-sm-2" placeholder="Partridge in a Pear Tree">
@@ -94,21 +97,16 @@
               </div>
             </div>
         </div>
+        <br><br>
+        <!-- loading indicator -->
+        <div class="text-center" style="display: none;">
+          <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <!-- Results list -->
         <ul class="list-group prodList" style="margin-top: 10%; margin-bottom: 5%; width: 80%">
-          <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
-            <h3 id='0'>
-              <span style="color: #FFFFE4;">Product Title</span> 
-              <a href="/" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
-              <span style="float: right; color: #FFFFE4;">$00.00 <button type="button" class="badge badge-primary addBtn" data-id='0' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
-            </h3>
-          </li>
-          <li class="list-group-item" style="margin-top: 1%; margin-bottom: 1%; background-color: #135300;">
-            <h3 id='1'>
-              <span style="color: #FFFFE4;">Product Title</span> 
-              <a href="/" target="blank" style="font-size: 20px; color: #A9DF9C;">Link to Buy</a>
-              <span style="float: right; color: #FFFFE4;">$00.00 <button type="button" class="badge badge-primary addBtn" data-id='1' style="background-color: #A9DF9C; color: #FFFFE4;"><i class="fas fa-plus"></i></button></span>
-            </h3>
         </ul>
+      </div>
     </div>
         
     <!-- footer -->

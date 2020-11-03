@@ -1,5 +1,11 @@
 function buildHTML(data){
     $('.wishList, .boughtList, .wrappedList').empty();
+    if (data.length < 1){
+        $('.wishList').append('<p style="margin-right: 5%">May you fill your wishlist with joys!</p>');
+        $('.boughtList').append('<p style="margin-right: 5%">Oh no...Did you forget to buy something?</p>');
+        $('.wrappedList').append('<p style="margin-right: 5%">Hope you have enough wrapping paper!</p>');
+        return;
+    }
     data.forEach(function(i){
         if(i.stage == 1) {
             $('.wishList').append(`

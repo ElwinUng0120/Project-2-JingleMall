@@ -85,11 +85,13 @@ function amazonRequest(url){
     }).done(function(response) {
         console.log(response);
         $('.prodList').empty(); // empty everything that was in list
+        $('.spinLoader').css('display', 'block');
         id = 0;
         // for each product in the response, get its details. LIMITING TO 5
         for(let i=0; i < 5; i++) {
             getAmazonDetails(response.foundProducts[i])
         }
+        $('.spinLoader').css('display', 'none');
         //response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
@@ -108,11 +110,13 @@ function walmartRequest(url){
     }).then(function(response){
         console.log(response);
         $('.prodList').empty(); // empty everything that was in list
+        $('.spinLoader').css('display', 'block');
         id = 0;
         // for each product in the response, get its details. LIMITING TO 5
         for(let i=0; i < 5; i++){
             getWalmartDetails(response.foundProducts[i])
         }
+        $('.spinLoader').css('display', 'none');
         // response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
@@ -165,20 +169,32 @@ $(document).ready(function(){
 
     // checking if user pressed enter while focused in input
     $('.form-control').on('keydown', function(event){
+        // if key pressed is not enter, prevent sending API calls
         if(event.keyCode != 13) {
             return;
-        } // if key pressed is not enter, prevent sending API calls
+        }
+        // if user didn't enter anything, prevent sending API calls
         if($('.form-control').val().trim() === '') {
             return;
-        } // if user didn't enter anything, prevent sending API calls
+        }
+        // starting sequence for API calls
         builtURL($('#storeList').val());
     })
 
     // checking if user has pressed the serach button
     $('.searchBtn').on('click', function(event){
+        // if user didn't enter anything, prevent sending API calls
         if($('.form-control').val().trim() === '') {
             return;
-        } // if user didn't enter anything, prevent sending API calls
+        }
+        $('.prodList').append(`  
+            <div class="text-center">
+                <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        `);
+        // starting sequence for API calls
         builtURL($('#storeList').val());
     });
 
