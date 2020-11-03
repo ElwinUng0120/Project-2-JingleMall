@@ -2,7 +2,7 @@ var APIKEY;
 var id;
 
 const amazonOpt = ['Most Relevence', 'Price: Low to High', 'Price: High to Low', 'Customer Reviews', 'Date: Latest to Oldest'];
-const walmartOpt = ['Best Seller', 'Price: Low to High', 'Price: High to Low', 'Ratings', 'Newest'];
+const walmartOpt = ['Best Match', 'Best Seller', 'Price: Low to High', 'Price: High to Low', 'Ratings', 'Newest'];
 
 // takes input from getWalmartDetails()/getAmazonDetails()
 function buildList(data, prodURL){
@@ -30,7 +30,7 @@ function buildList(data, prodURL){
                     </li>
                 `)
         break;
-    default: return;
+    default: break;
     }
 }
 
@@ -74,7 +74,7 @@ function getWalmartDetails(URL){
 
 // linked to getAmazonDetails()
 function amazonRequest(url){
-    $('.spinLoader').css('display', 'block');
+    $('.loadSign').css('display', 'block');
     $.ajax({
         url: 'https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?' + url,
         method: 'GET',
@@ -90,7 +90,7 @@ function amazonRequest(url){
         for(let i=0; i < 5; i++) {
             getAmazonDetails(response.foundProducts[i])
         }
-        $('.spinLoader').css('display', 'none');
+        $('.loadSign').css('display', 'none');
         //response.foundProducts.forEach( i => getAmazonDetails(i) );
     }).catch(function(err){
         console.log(err);
@@ -99,7 +99,7 @@ function amazonRequest(url){
 
 // linked to getWalmarDetails()
 function walmartRequest(url){
-    $('.spinLoader').css('display', 'block');
+    $('.loadSign').css('display', 'block');
     $.ajax({
         url: 'https://axesso-walmart-data-service.p.rapidapi.com/wlm/walmart-search-by-keyword?' + url,
         method: 'GET',
@@ -115,7 +115,7 @@ function walmartRequest(url){
         for(let i=0; i < 5; i++){
             getWalmartDetails(response.foundProducts[i])
         }
-        $('.spinLoader').css('display', 'none');
+        $('.loadSign').css('display', 'none');
         // response.foundProducts.forEach( i => getWalmartDetails(i) ); // for each product in the response, get its details
     // .catch for printing error detials
     }).catch(function(err){
@@ -129,7 +129,7 @@ function builtURL(type){
     var keyword;
     switch(type){
     case 'amazon':
-        switch ($('.form-control').val()){
+        switch ($('.sortList').val()){
         case 'Price: Low to High': sortBY = 'price-asc-rank'; break;
         case 'Price: High to Low': sortBY = 'price-desc-rank'; break;
         case 'Customer Reviews': sortBY = 'review-rank'; break;
@@ -140,12 +140,13 @@ function builtURL(type){
         amazonRequest(`sortBy=${sortBy}&domainCode=ca&keyword=${keyword}&page=1`);
         break;
     case 'walmart':
-        switch ($('.form-control').val()){
+        switch ($('.sortList').val()){
+        case 'Best Seller': sortBy = 'best_seller'; break;
         case 'Price: Low to High': sortBY = 'price_low'; break;
         case 'Price: High to Low': sortBY = 'price_high'; break;
         case 'Ratings': sortBY = 'rating_high'; break;
         case 'Newest': sortBY = 'new'; break;
-        default: sortBY = 'best_seller'; break;
+        default: sortBY = 'best_match'; break;
         }
         keyword = $('.form-control').val().trim();
         walmartRequest(`sortBy=${sortBy}&page=1&keyword=${keyword}&type=text`);
@@ -186,13 +187,6 @@ $(document).ready(function(){
         if($('.form-control').val().trim() === '') {
             return;
         }
-        $('.prodList').append(`  
-            <div class="text-center">
-                <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        `);
         // starting sequence for API calls
         builtURL($('#storeList').val());
     });
